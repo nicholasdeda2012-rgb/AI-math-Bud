@@ -212,6 +212,7 @@ app.get('/api/test-openai', async (req, res) => {
       max_tokens: 10
     });
     
+    
     res.json({ 
       success: true, 
       message: 'OpenAI API is working',
