@@ -9,7 +9,7 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({ onSubmit, loading, error }) => {
   const [dragActive, setDragActive] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  // const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -72,7 +72,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onSubmit, loading, error }) =
       streamRef.current = null;
     }
     setCameraActive(false);
-    setCapturedImage(null);
+    // setCapturedImage(null);
   };
 
   const capturePhoto = () => {

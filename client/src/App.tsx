@@ -6,6 +6,7 @@ import Header from './components/Header';
 import HistoryView from './components/HistoryView';
 import NotesView from './components/NotesView';
 import Chat from './components/Chat';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 interface Solution {
   steps: string[];
@@ -260,42 +261,44 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Header 
-        onViewHistory={handleViewHistory} 
-        onViewNotes={handleViewNotes}
-        onViewChat={handleViewChat}
-        showBackButton={showHistory || showNotes || showChat} 
-        onBack={handleBackToSolve} 
-      />
-      <main className="main-content">
-        {showHistory ? (
-          <HistoryView 
-            history={history} 
-            onLoadProblem={handleLoadFromHistory}
-          />
-        ) : showNotes ? (
-          <NotesView 
-            notes={Array.from(notes.values())}
-          />
-        ) : showChat ? (
-          <Chat 
-            onClose={handleBackToSolve}
-          />
-        ) : !solution ? (
-          <ImageUpload 
-            onSubmit={handleImageSubmit} 
-            loading={loading}
-            error={error}
-          />
-        ) : (
-          <SolutionDisplay 
-            solution={solution} 
-            onReset={handleReset}
-          />
-        )}
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <Header 
+          onViewHistory={handleViewHistory} 
+          onViewNotes={handleViewNotes}
+          onViewChat={handleViewChat}
+          showBackButton={showHistory || showNotes || showChat} 
+          onBack={handleBackToSolve} 
+        />
+        <main className="main-content">
+          {showHistory ? (
+            <HistoryView 
+              history={history} 
+              onLoadProblem={handleLoadFromHistory}
+            />
+          ) : showNotes ? (
+            <NotesView 
+              notes={Array.from(notes.values())}
+            />
+          ) : showChat ? (
+            <Chat 
+              onClose={handleBackToSolve}
+            />
+          ) : !solution ? (
+            <ImageUpload 
+              onSubmit={handleImageSubmit} 
+              loading={loading}
+              error={error}
+            />
+          ) : (
+            <SolutionDisplay 
+              solution={solution} 
+              onReset={handleReset}
+            />
+          )}
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }
 
