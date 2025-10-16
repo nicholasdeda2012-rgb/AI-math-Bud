@@ -240,6 +240,24 @@ function App() {
     setError(null);
   };
 
+  const handleRenameTopic = (oldTopic: string, newTopic: string) => {
+    setNotes(prevNotes => {
+      const newNotes = new Map(prevNotes);
+      const note = newNotes.get(oldTopic);
+      
+      if (note) {
+        // Create updated note with new topic name
+        const updatedNote = { ...note, topic: newTopic };
+        newNotes.delete(oldTopic);
+        newNotes.set(newTopic, updatedNote);
+        
+        // Note: selectedTopic is managed within NotesView component
+      }
+      
+      return newNotes;
+    });
+  };
+
   const handleViewChat = () => {
     setShowChat(true);
     setShowHistory(false);
@@ -279,6 +297,7 @@ function App() {
           ) : showNotes ? (
             <NotesView 
               notes={Array.from(notes.values())}
+              onRenameTopic={handleRenameTopic}
             />
           ) : showChat ? (
             <Chat 

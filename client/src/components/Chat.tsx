@@ -123,15 +123,20 @@ const Chat: React.FC<ChatProps> = ({ onClose }) => {
     <div className="chat-container">
       <div className="chat-header">
         <div className="chat-title">
-          <span className="chat-icon">🤖</span>
-          <h3>AI Math Tutor</h3>
+          <div className="chat-avatar">
+            <span className="chat-icon">🧮</span>
+          </div>
+          <div className="chat-title-text">
+            <h3>AI Math Tutor</h3>
+            <span className="chat-status">Online</span>
+          </div>
         </div>
         <div className="chat-actions">
-          <button className="btn btn-small btn-secondary" onClick={clearChat}>
-            Clear Chat
+          <button className="chat-action-btn" onClick={clearChat} title="Clear Chat">
+            <span className="action-icon">🗑️</span>
           </button>
-          <button className="btn btn-small btn-secondary" onClick={onClose}>
-            Close
+          <button className="chat-action-btn" onClick={onClose} title="Close Chat">
+            <span className="action-icon">✕</span>
           </button>
         </div>
       </div>
@@ -142,6 +147,11 @@ const Chat: React.FC<ChatProps> = ({ onClose }) => {
             key={message.id}
             className={`message ${message.isUser ? 'user-message' : 'ai-message'}`}
           >
+            {!message.isUser && (
+              <div className="message-avatar">
+                <span className="avatar-icon">🤖</span>
+              </div>
+            )}
             <div className="message-content">
               <div className="message-text">{message.text}</div>
               <div className="message-time">
@@ -151,11 +161,19 @@ const Chat: React.FC<ChatProps> = ({ onClose }) => {
                 })}
               </div>
             </div>
+            {message.isUser && (
+              <div className="message-avatar user-avatar">
+                <span className="avatar-icon">👤</span>
+              </div>
+            )}
           </div>
         ))}
         
         {isLoading && (
           <div className="message ai-message">
+            <div className="message-avatar">
+              <span className="avatar-icon">🤖</span>
+            </div>
             <div className="message-content">
               <div className="typing-indicator">
                 <span></span>
@@ -171,43 +189,47 @@ const Chat: React.FC<ChatProps> = ({ onClose }) => {
 
       <div className="chat-input">
         <div className="input-container">
-          <textarea
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask me anything about math..."
-            className="chat-textarea"
-            rows={1}
-            disabled={isLoading}
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={!inputText.trim() || isLoading}
-            className="send-button"
-          >
-            <span className="send-icon">📤</span>
-          </button>
+          <div className="input-wrapper">
+            <textarea
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask me anything about math..."
+              className="chat-textarea"
+              rows={1}
+              disabled={isLoading}
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputText.trim() || isLoading}
+              className="send-button"
+            >
+              <span className="send-icon">→</span>
+            </button>
+          </div>
         </div>
         <div className="chat-suggestions">
-          <span className="suggestion-label">Try asking:</span>
-          <button 
-            className="suggestion-btn"
-            onClick={() => setInputText("Explain quadratic equations")}
-          >
-            "Explain quadratic equations"
-          </button>
-          <button 
-            className="suggestion-btn"
-            onClick={() => setInputText("How do I factor polynomials?")}
-          >
-            "How do I factor polynomials?"
-          </button>
-          <button 
-            className="suggestion-btn"
-            onClick={() => setInputText("What's the difference between linear and quadratic functions?")}
-          >
-            "Linear vs quadratic functions"
-          </button>
+          <span className="suggestion-label">Quick questions:</span>
+          <div className="suggestion-chips">
+            <button 
+              className="suggestion-chip"
+              onClick={() => setInputText("Explain quadratic equations")}
+            >
+              Quadratic equations
+            </button>
+            <button 
+              className="suggestion-chip"
+              onClick={() => setInputText("How do I factor polynomials?")}
+            >
+              Factor polynomials
+            </button>
+            <button 
+              className="suggestion-chip"
+              onClick={() => setInputText("What's the difference between linear and quadratic functions?")}
+            >
+              Linear vs quadratic
+            </button>
+          </div>
         </div>
       </div>
     </div>
